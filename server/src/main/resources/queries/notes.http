@@ -1,0 +1,36 @@
+POST http://localhost:8080/api/notes
+Content-Type: application/json
+
+{
+  "title": "hausaufgaben",
+  "subtitle": "teppich saugen",
+  "bodyText": "teppich saugen und wischen"
+}
+
+###
+
+GET http://localhost:8080/api/notes
+Accept: application/json
+
+###
+
+GET http://localhost:8080/api/notes/11
+Accept: application/json
+
+###
+
+PUT http://localhost:8080/api/notes/11
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 11,
+  "title": "hausaufgabe",
+  "subtitle": "kleidung",
+  "bodyText": "kleidung von famillie waschen"
+}
+
+###
+
+DELETE http://localhost:8080/api/notes/9
+Accept: application/json
