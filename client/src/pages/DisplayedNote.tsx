@@ -1,7 +1,7 @@
-// `client/src/pages/DisplayedNote.tsx`
 import { Link, useParams } from 'react-router-dom';
 import { useDeleteNote, useGetNotes, useUpdateNote } from '../lib/react-query/query';
 import { toast } from 'sonner';
+
 
 export default function DisplayedNote() {
     const { id } = useParams();
@@ -12,7 +12,10 @@ export default function DisplayedNote() {
     const aktuelNote = notes?.find((note) => note.id === Number(id));
 
     const handleUpdate = async () => {
-        if (aktuelNote) {
+            if (!aktuelNote) {
+                toast.error('Note not found');
+                return;
+            }
             try {
                 await updateNote({
                     id: aktuelNote.id,
@@ -22,15 +25,16 @@ export default function DisplayedNote() {
                 });
                 toast.success('Note updated successfully');
             } catch {
+
                 toast.error('Failed to update note');
             }
-        }
     };
 
     const handleDelete = async (id:number) => {
-        if (aktuelNote) {
+     const noteTodelete = notes?.find((note) => note.id === id);
+        if (noteTodelete) {
             try {
-                await deleteOneNote(aktuelNote.id.toString());
+                await deleteOneNote(noteTodelete.id.toString());
                 toast.success('Note deleted successfully');
             } catch {
                 toast.error('Failed to delete note');
@@ -50,7 +54,7 @@ export default function DisplayedNote() {
             >
                 Ändern
             </Link>
-            <button className="px-2 py-1 text-slate-200 bg-red-600 rounded mr-2" onClick={handleDelete(id)}>
+            <button className="px-2 py-1 text-slate-200 bg-red-600 rounded mr-2" onClick={()=>handleDelete(Number(id))}>
                 delete
             </button>
             <p className="text-slate-100 text-4xl mb-2 mt-8">{aktuelNote?.title}</p>
